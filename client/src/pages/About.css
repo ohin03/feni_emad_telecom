@@ -1,198 +1,128 @@
-.about-page {
-  font-family: "Poppins", sans-serif;
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&display=swap');
+
+.about-dark-edition {
+    background-color: #050505;
+    color: #ffffff;
+    font-family: 'Space Grotesk', sans-serif;
+    overflow-x: hidden;
 }
 
-/* ===== BACKGROUND ===== */
-.about-bg {
-  min-height: 100vh;
-  background: linear-gradient(135deg, #0ea5e9, #6366f1, #22d3ee);
-  padding: 80px 20px;
+/* --- HERO --- */
+.neon-hero {
+    padding: 160px 0 100px;
+    background: radial-gradient(circle at 20% 30%, #1e3a8a 0%, transparent 40%);
 }
 
-/* ===== GLASS BOX ===== */
-.glass-box {
-  max-width: 1100px;
-  margin: auto;
-  padding: 40px 30px;
-  background: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border-radius: 18px;
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
-}
-/* ===== WHO WE ARE (3 IMAGES) ===== */
-.about-images {
-  display: flex;
-  gap: 15px;
-  flex-wrap: wrap;
+.verified-badge {
+    background: rgba(59, 130, 246, 0.1);
+    color: #60a5fa;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: 50px;
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    border: 1px solid rgba(59, 130, 246, 0.2);
 }
 
-.about-images img {
-  width: 120px;
-  height: 290px;
-  border-radius: 12px;
-  object-fit: cover;
-  transition: transform 0.3s ease;
+.hero-headline {
+    font-size: clamp(2.5rem, 8vw, 5rem);
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 25px;
 }
 
-.about-images img:hover {
-  transform: scale(1.08);
+.accent-text {
+    color: transparent;
+    -webkit-text-stroke: 1px #fff;
+    background: linear-gradient(90deg, #3b82f6, #60a5fa);
+    -webkit-background-clip: text;
 }
 
+.hero-para { font-size: 1.15rem; max-width: 700px; color: #94a3b8; margin-bottom: 45px; }
 
-
-/* Responsive */
-@media (max-width: 768px) {
-  .about-images {
-    justify-content: center;
-  }
-
-  .about-images img {
-    width: 100px;
-    height: 200px;
-  }
+/* --- BUTTONS --- */
+.btn-neon {
+    background: #3b82f6;
+    color: white;
+    border: none;
+    padding: 18px 40px;
+    font-weight: 700;
+    border-radius: 12px;
+    transition: 0.3s;
 }
 
-
-
-
-
-
-
-/* ===== HEAD ===== */
-.glass-box h1 {
-  text-align: center;
-  font-size: 2.3rem;
+.btn-neon:hover {
+    box-shadow: 0 15px 30px rgba(59, 130, 246, 0.4);
+    transform: translateY(-5px);
 }
 
-.subtitle {
-  text-align: center;
-  margin-bottom: 40px;
-  color: #f8fafc;
+.live-stat { display: inline-flex; align-items: center; gap: 10px; margin-left: 25px; font-size: 14px; color: #60a5fa; }
+.dot { width: 10px; height: 10px; background: #10b981; border-radius: 50%; box-shadow: 0 0 10px #10b981; animation: pulse 2s infinite; }
+
+@keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
+
+/* --- DNA CARDS --- */
+.grid-dna { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+.dna-card { background: #0f0f0f; padding: 50px 40px; border: 1px solid #1a1a1a; transition: 0.4s; border-radius: 24px; }
+.dna-card.active { border-color: #3b82f6; background: #0a0a0a; box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
+.dna-icon { font-size: 40px; color: #3b82f6; margin-bottom: 30px; }
+
+/* --- BENTO GRID --- */
+.bento-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; }
+.bento-item { border-radius: 30px; padding: 45px; position: relative; overflow: hidden; }
+.item-large { grid-column: span 2; background: #0f0f0f; border: 1px solid #1a1a1a; }
+.item-small { grid-column: span 1; }
+.bg-blue { background: #2563eb; color: white; }
+.bg-dark { background: #000; border: 1px solid #2563eb; }
+.bento-bg-icon { position: absolute; bottom: -40px; right: -20px; font-size: 200px; opacity: 0.03; }
+
+/* --- LOCATION SECTION --- */
+.glass-location-card { background: #0a0a0a; border: 1px solid #1a1a1a; border-radius: 40px; overflow: hidden; }
+.loc-pin { font-size: 45px; color: #3b82f6; margin-bottom: 25px; }
+
+.btn-map-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: white;
+    color: black;
+    padding: 16px 32px;
+    border-radius: 100px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: 0.3s;
 }
 
-/* ===== INTRO ===== */
-.about-intro {
-  display: flex;
-  gap: 30px;
-  align-items: center;
-  flex-wrap: wrap;
+.btn-map-action:hover {
+    background: #3b82f6;
+    color: white;
+    transform: scale(1.05);
 }
 
-.about-intro img {
-  width: 320px;
-  max-width: 100%;
-  border-radius: 14px;
+.loc-img-container { width: 100%; height: 100%; position: relative; }
+.loc-img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.6); }
+.img-overlay-dark {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(to right, #0a0a0a, transparent);
 }
 
-.about-intro h2 {
-  margin-bottom: 10px;
-  color: #0f172a;
-}
+/* --- PARTNER STRIP --- */
+.partner-strip { background: #080808; border-top: 1px solid #111; border-bottom: 1px solid #111; }
+.filter-grayscale { filter: grayscale(1); transition: 0.5s; }
+.filter-grayscale:hover { filter: grayscale(0); opacity: 1; }
 
-.about-intro p {
-  line-height: 1.7;
-  color: #0f172a;
-}
+.py-100 { padding: 100px 0; }
 
-/* ===== FEATURES ===== */
-.about-features {
-  margin-top: 50px;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 25px;
-}
-
-.feature-card {
-  background: rgba(255, 255, 255, 0.35);
-  padding: 25px;
-  border-radius: 14px;
-  text-align: center;
-}
-
-.feature-card svg {
-  font-size: 32px;
-  color: #0284c7;
-  margin-bottom: 10px;
-}
-
-.feature-card h3 {
-  margin-bottom: 8px;
-}
-
-/* ===== EXTRA ===== */
-.about-extra {
-  margin-top: 50px;
-}
-
-.about-extra h2 {
-  margin-bottom: 10px;
-  color: #0f172a;
-}
-
-.about-extra p {
-  line-height: 1.7;
-  color: #0f172a;
-}
-
-/* ===== RESPONSIVE ===== */
-@media (max-width: 768px) {
-  .glass-box {
-    padding: 30px 20px;
-  }
-
-  .glass-box h1 {
-    font-size: 1.8rem;
-  }
-}
-
-
-
-
-
-/* ===== REVIEWS ===== */
-.review-section {
-  margin-top: 60px;
-  text-align: center;
-}
-
-.review-section h2 {
-  margin-bottom: 30px;
-  color: #0f172a;
-}
-
-.review-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 25px;
-}
-
-.review-card {
-  background: rgba(255, 255, 255, 0.35);
-  padding: 25px;
-  border-radius: 16px;
-  backdrop-filter: blur(6px);
-}
-
-.review-card img {
-  width: 70px;
-  height: 70px;
-  border-radius: 50%;
-  object-fit: cover;
-  margin-bottom: 10px;
-}
-
-.review-card h4 {
-  margin-bottom: 4px;
-}
-
-.stars {
-  color: #facc15;
-  margin-bottom: 10px;
-}
-
-.review-card p {
-  font-size: 0.95rem;
-  line-height: 1.6;
+/* --- RESPONSIVE --- */
+@media (max-width: 991px) {
+    .bento-grid { grid-template-columns: 1fr; }
+    .item-large { grid-column: span 1; }
+    .hero-headline { font-size: 3rem; }
+    .hero-actions { display: flex; flex-direction: column; align-items: center; gap: 20px; }
+    .live-stat { margin-left: 0; }
+    .neon-hero { text-align: center; padding-top: 120px; }
 }
