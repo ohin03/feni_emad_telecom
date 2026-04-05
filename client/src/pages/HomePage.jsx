@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from "react";
 import Layout from "../components/Layout/Layout";
 import axios from "axios";
-import { Checkbox, Radio } from "antd";
+import { Checkbox, Radio, Drawer, Tag } from "antd";
 import { Prices } from "../components/Prices";
 import "./HomePage.css";
 import SearchInput from "../components/Form/SearchInput";
 import { useCart } from "../context/cart";
-
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-
-
+import { AiOutlineShoppingCart, AiOutlineEye, AiOutlineFilter, AiOutlineReload } from "react-icons/ai";
+import { HiOutlineSparkles, HiOutlineSearchCircle } from "react-icons/hi";
 
 function HomePage() {
   const [products, setProducts] = useState([]);
@@ -19,261 +18,222 @@ function HomePage() {
   const [radio, setRadio] = useState([]);
   const [cart, setCart] = useCart();
   const navigate = useNavigate();
+  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [total, setTotal] = useState(0);
+  const [open, setOpen] = useState(false);
 
+  // Load Total Count
+  const getTotal = async () => {
+    try {
+      const { data } = await axios.get("/api/v1/product/product-count");
+      setTotal(data?.total);
+    } catch (error) { console.log(error); }
+  };
 
+  // Initial Load
+  const loadProducts = async () => {
+    try {
+      setLoading(true);
+      const { data } = await axios.get(`/api/v1/product/product-list/${page}`);
+      setProducts(data.products || []);
+      setLoading(false);
+    } catch (error) { setLoading(false); }
+  };
 
+  // Load More
+  const loadMore = async () => {
+    try {
+      setLoading(true);
+      const { data } = await axios.get(`/api/v1/product/product-list/${page + 1}`);
+      setProducts([...products, ...data?.products]);
+      setPage(page + 1);
+      setLoading(false);
+    } catch (error) { setLoading(false); }
+  };
 
-  //load more 
-const [page, setPage] = useState(1);
-const [loading, setLoading] = useState(false);
-const [total, setTotal] = useState(0);
-const getTotal = async () => {
-  try {
-    const { data } = await axios.get("/api/v1/product/product-count");
-    setTotal(data.total);
-  } catch (error) {
-    console.log(error);
-  }
-};
-const loadProducts = async () => {
-  try {
-    setLoading(true);
-    const { data } = await axios.get(
-      `/api/v1/product/product-list/${page}`
-    );
-    // initial load should set products
-    setProducts(data.products || []);
-    setLoading(false);
-  } catch (error) {
-    setLoading(false);
-  }
-};
-const loadMore = async () => {
-  try {
-    if (loading) return;
-    const nextPage = page + 1;
-    setLoading(true);
-    const { data } = await axios.get(
-      `/api/v1/product/product-list/${nextPage}`
-    );
-    const more = data.products || [];
-    setProducts((prev) => [...prev, ...more]);
-    setPage(nextPage);
-    setLoading(false);
-  } catch (error) {
-    setLoading(false);
-  }
-};
-useEffect(() => {
-  loadProducts();
-  getTotal();
-  // reset to page 1 on mount
-  setPage(1);
-}, []);
+  useEffect(() => {
+    getAllCategory();
+    getTotal();
+    loadProducts();
+  }, []);
 
-
-
-
-
-
-
-  
-  // Fetch all categories
   const getAllCategory = async () => {
     try {
       const { data } = await axios.get("/api/v1/category/get-category");
       if (data?.success) setCategories(data.category);
-    } catch (error) {
-      console.log("Failed to load categories", error);
-    }
+    } catch (error) { console.log(error); }
   };
 
-  // Fetch all products (used when no filters applied)
-  const getAllProducts = async () => {
-    try {
-      // align with pagination list to avoid overwriting load-more list
-      const { data } = await axios.get(`/api/v1/product/product-list/1`);
-      if (data?.success) setProducts(data.products || []);
-      setPage(1);
-    } catch (error) {
-      console.log("Failed to load products", error);
-    }
-  };
-
-  // Initial load
-  useEffect(() => {
-    getAllCategory();
-    getAllProducts();
-  }, []);
-
-  // Handle category checkbox
-  const handleFilter = (checkedValue, id) => {
+  const handleFilter = (value, id) => {
     let all = [...checked];
-    if (checkedValue) {
-      all.push(id);
-    } else {
-      all = all.filter((c) => c !== id);
-    }
+    if (value) all.push(id);
+    else all = all.filter((c) => c !== id);
     setChecked(all);
   };
 
-  // Filter products
-  const filterProduct = async () => {
-    try {
-      const { data } = await axios.post("/api/v1/product/product-filters", {
-        checked,
-        radio,
-      });
-      if (data?.success) setProducts(data.products);
-    } catch (error) {
-      console.log("Error filtering products", error);
-    }
-  };
-
-  // Trigger filter whenever category or price changes
   useEffect(() => {
-    if (checked.length || radio.length) {
-      filterProduct();
-    } else {
-      getAllProducts(); // if no filters, show all
-    }
+    if (checked.length || radio.length) filterProduct();
+    else if (page === 1) loadProducts();
   }, [checked, radio]);
 
+  const filterProduct = async () => {
+    try {
+      const { data } = await axios.post("/api/v1/product/product-filters", { checked, radio });
+      setProducts(data?.products);
+    } catch (error) { console.log(error); }
+  };
+
   return (
-    <div className="HomePage">
-    <Layout
-      title={"All products -> Emad Telecom"}
-      description="Shop the latest mobile phones, accessories, repair services, and second-hand devices at Emad Telecom. Best offers on smartphones in Feni."
-      keywords="Mobile, Accessories, Repair, Second Hand Phones, Smartphones, Best Offers, Feni, Mobile Shop"
-    >
-
-
-
-
-<section className="contact-hero">
-  <div className="single-hero-banner">
-    <img
-      src="/images/contact-banner2.png"
-      className="d-block w-100 hero-img"
-      alt="Contact Banner"
+    <Layout title={"Emad Telecom | Home page"}>
+      <div className="main-wrapper">
+        
+        {/* --- 1. PRO HERO BANNER --- */}
+        <div className="hero-section-pro">
      
-    />
-  </div>
-</section>
-
-      <div className="row mt-4">
-        {/* Filter Sidebar */}
-        <div className="col-md-2">
-          <h4 className="text-center">Filter by Category</h4>
-          <div className="d-flex flex-column ">
-            {categories?.map((c) => (
-              <Checkbox
-                key={c._id}
-                onChange={(e) => handleFilter(e.target.checked, c._id)}
-              className="text-black">
-                {c.name}
-              </Checkbox>
-            ))}
+          <div className="hero-content-overlay">
+            <h1 className="hero-main-title">Emad Telecom <HiOutlineSparkles className="spark-icon" /></h1>
+            <p className="hero-sub-text">Exclusive deals on latest smartphones and accessories</p>
           </div>
+        </div>
 
-          <h4 className="text-center mt-4">Filter by Price</h4>
-          <div className="d-flex flex-column">
-            <Radio.Group onChange={(e) => setRadio(e.target.value)}>
-              {Prices?.map((p) => (
-                <div key={p._id}>
-                  <Radio value={p.array}  className="text-black" >{p.name}</Radio>
+        {/* --- 2. MOBILE FILTER FAB --- */}
+        <button className="mobile-filter-btn d-md-none" onClick={() => setOpen(true)}>
+          <AiOutlineFilter /> <span>Filters</span>
+        </button>
+
+        <div className="container-fluid px-md-5">
+          <div className="row">
+            
+            {/* --- 3. DESKTOP SIDEBAR --- */}
+            <div className="col-md-3 d-none d-md-block pt-5">
+              <div className="sticky-sidebar-card shadow-sm p-4">
+                <h6 className="sidebar-heading">BY CATEGORY</h6>
+                <div className="filter-options mb-4">
+                  {categories?.map((c) => (
+                    <div key={c._id} className="custom-check mb-2">
+                      <Checkbox onChange={(e) => handleFilter(e.target.checked, c._id)}>
+                        {c.name}
+                      </Checkbox>
+                    </div>
+                  ))}
+                </div>
+
+                <h6 className="sidebar-heading">BY BUDGET</h6>
+                <Radio.Group onChange={(e) => setRadio(e.target.value)} value={radio}>
+                  {Prices?.map((p) => (
+                    <div key={p._id} className="mb-2">
+                      <Radio value={p.array}>{p.name}</Radio>
+                    </div>
+                  ))}
+                </Radio.Group>
+
+                <button className="pro-reset-btn w-100 mt-4" onClick={() => window.location.reload()}>
+                  <AiOutlineReload /> RESET ALL
+                </button>
+              </div>
+            </div>
+
+            {/* --- 4. MAIN CONTENT AREA --- */}
+            <div className="col-md-9 main-content-top-spacing ">
+              
+              {/* --- WORKABLE FLOATING SEARCH BOX --- */}
+              <div className="floating-search-wrapper mb-5">
+                <div className="search-glass-card shadow-lg ">
+                  <div className="search-prefix d-none d-md-flex ">
+                    <HiOutlineSearchCircle className="search-icon-big " />
+                    <span>Search Products</span>
+                  </div>
+                  <div className="search-input-flex">
+                    <SearchInput />
+                  </div>
+                </div>
+              </div>
+
+              {/* Grid Header */}
+              <div className="d-flex justify-content-between align-items-center mb-4 px-2">
+                <h2 className="section-title-modern">Latest Arrivals</h2>
+                <Tag color="blue" className="rounded-pill px-3 py-1">{products?.length} Items</Tag>
+              </div>
+
+              {/* Product Grid */}
+              <div className="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-4">
+                {products?.map((p) => (
+                  <div className="col product-animate" key={p._id}>
+                    <div className="pro-ultra-card">
+                      <div className="pro-img-holder" onClick={() => navigate(`/product/${p.slug}`)}>
+                        <img src={`/api/v1/product/product-photo/${p._id}`} alt={p.name} />
+                        <div className="hover-overlay-text">VIEW DETAILS</div>
+                      </div>
+                      <div className="pro-info-holder">
+                        <span className="pro-category-tag">Genuine Product</span>
+                        <h6 className="pro-name-text">{p.name}</h6>
+                        <h5 className="pro-price-text">TK {p.price.toLocaleString()}</h5>
+                        <div className="pro-button-group">
+                          <button className="details-btn-modern" onClick={() => navigate(`/product/${p.slug}`)}>
+                            <AiOutlineEye /> Details
+                          </button>
+                          <button className="cart-btn-modern" onClick={() => {
+                            setCart([...cart, p]);
+                            localStorage.setItem("cart", JSON.stringify([...cart, p]));
+                            toast.success("Added to cart");
+                          }}>
+                            <AiOutlineShoppingCart />
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Load More Button */}
+              {products.length < total && (
+                <div className="text-center my-5 pb-5">
+                  <button className="glow-loadmore-btn" onClick={loadMore} disabled={loading}>
+                    {loading ? "Discovering..." : "EXPLORE MORE"}
+                  </button>
+                </div>
+              )}
+            </div>
+
+          </div>
+        </div>
+
+        {/* --- 5. MOBILE DRAWER --- */}
+        <Drawer
+          title="Filter Products"
+          placement="bottom"
+          onClose={() => setOpen(false)}
+          open={open}
+          height="70%"
+          className="pro-drawer"
+        >
+          <div className="drawer-body p-2">
+            <h6 className="drawer-label">Categories</h6>
+            <div className="d-flex flex-wrap gap-2 mb-4">
+              {categories?.map((c) => (
+                <div 
+                  key={c._id} 
+                  className={`mobile-chip ${checked.includes(c._id) ? "active" : ""}`}
+                  onClick={() => handleFilter(!checked.includes(c._id), c._id)}
+                >
+                  {c.name}
                 </div>
               ))}
+            </div>
+            <h6 className="drawer-label">Budget Range</h6>
+            <Radio.Group onChange={(e) => setRadio(e.target.value)} value={radio} className="d-flex flex-column gap-2">
+              {Prices?.map((p) => (
+                <Radio key={p._id} value={p.array}>{p.name}</Radio>
+              ))}
             </Radio.Group>
+            <button className="btn btn-dark w-100 mt-4 py-3 rounded-4" onClick={() => setOpen(false)}>APPLY FILTERS</button>
           </div>
+        </Drawer>
 
-          <div className="d-flex flex-column">
-            <button
-              className="btn btn-danger"
-              onClick={() => window.location.reload()}
-            >
-              RESET FILTERS
-            </button>
-          </div>
-        </div>
-
-        {/* Products Grid */}
-        <div className="col-md-10">
-          <h1 className="text-center mb-4 text-black" >All Products</h1>
-          <div className="d-flex justify-content-center align-items-center p-5">
-               <SearchInput />
-           </div>
-
-          <div className="d-flex flex-wrap">
-            {products?.map((p) => (
-              <div
-                key={p._id}
-                className="create-product-card m-2"
-                style={{ width: "18rem" }}
-              >
-                <div className="product-img-wrapper">
-                  <img
-                    src={`/api/v1/product/product-photo/${p._id}`}
-                    className="card-img-top img-preview "
-                    alt={p.name}
-                  />
-                </div>
-
-                <div className="card-body">
-  <h5 className="card-title text-danger">{p.name}</h5>
-  <p className="card-text">{p.description.substring(0, 50)}...</p>
-  <p className="card-text">TK: {p.price}</p>
-
-  <div className="btn-wrapper">
-    <button
-  className="btn btn-primary p-1"
-  onClick={() => navigate(`/product/${p.slug}`)}
->
-  More Details
-</button>
-
-       
-              <button className="btn btn-secondary p-1" onClick={() => {
-                const item = { ...p, quantity: 1 };
-                setCart([...cart, item]);
-                localStorage.setItem('cart', JSON.stringify([...cart, item]))
-                toast.success('Item Added to Cart');
-              }}   >ADD TO CART</button>
-        
-
-
-  
-  </div>
-</div>
-
-              </div>
-            ))}
-            {products?.length === 0 && (
-              <h5 className="text-center mt-3">No products found</h5>
-            )}
-          </div>
-        </div>
       </div>
-
-     
-
-
-<div className="text-center mt-3">
-  {products.length < total && (
-    <button
-      className="btn btn-dark"
-      onClick={loadMore}
-      disabled={loading}
-    >
-      {loading ? "Loading..." : "LOAD MORE"}
-    </button>
-  )}
-</div>
-
-
-
-
-    </Layout></div>
+    </Layout>
   );
 }
 

@@ -402,6 +402,7 @@ a {
 
 
 
+<<<<<<< HEAD
 /*search edit*/
 /* ===============================
    SEARCH PAGE STYLES
@@ -411,6 +412,9 @@ a {
 ================================ */
 
 /* Page Container */
+=======
+
+>>>>>>> 2f40afd (home page update)
 .search-page-container {
   padding: 20px;
 }
