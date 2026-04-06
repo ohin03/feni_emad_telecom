@@ -180,7 +180,7 @@ const Header = () => {
         <div className="offcanvas-body">
           <ul className="navbar-nav gap-2">
 
-            <NavLink to="/" className="nav-link">Home</NavLink>
+            <NavLink to="/" className="nav-link" onClick={closeOffcanvas}>Home</NavLink>
         
      <li className="nav-item">
   <div className="nav-link d-flex justify-content-between align-items-center">
@@ -229,8 +229,8 @@ const Header = () => {
 
             {!auth?.user ? (
               <>
-                <NavLink to="/register" className="nav-link">Register</NavLink>
-                <NavLink to="/login" className="nav-link">Login</NavLink>
+                <NavLink to="/register" className="nav-link" onClick={closeOffcanvas}>Register</NavLink>
+                <NavLink to="/login" className="nav-link" onClick={closeOffcanvas}>Login</NavLink>
               </>
             ) : (
               <li className="nav-item">
@@ -249,6 +249,7 @@ const Header = () => {
                       <NavLink
                         to={`/dashboard/${auth?.user?.role === 1 ? "admin" : "user"}`}
                         className="nav-link"
+                        onClick={closeOffcanvas}
                       >
                         Dashboard
                       </NavLink>
@@ -256,7 +257,10 @@ const Header = () => {
                     <li>
                       <NavLink
                         to="/login"
-                        onClick={handleLogout}
+                        onClick={() => {
+                          handleLogout();
+                          closeOffcanvas();
+                        }}
                         className="nav-link"
                       >
                         Logout
@@ -267,7 +271,7 @@ const Header = () => {
               </li>
             )}
             <Badge count={cart?.length} showZero>
-            <NavLink to="/cart" className="nav-link">Cart</NavLink>
+            <NavLink to="/cart" className="nav-link" onClick={closeOffcanvas}>Cart</NavLink>
             </Badge>
           </ul>
         </div>
