@@ -1,59 +1,192 @@
-.footer {
-  background: #1f2933;
+.ultra-footer {
+  background: #0f172a;
+  position: relative;
   color: #fff;
-  padding: 40px 20px;
+  padding-top: 100px; /* Space for wave */
 }
 
-.footer-container {
-  max-width: 1200px;
-  margin: auto;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 30px;
+/* --- THE WAVE --- */
+.footer-wave-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
 }
 
-.footer-title {
-  color: #22c55e;
-  margin-bottom: 10px;
+.footer-wave-container svg {
+  position: relative;
+  display: block;
+  width: calc(160% + 1.3px);
+  height: 70px;
 }
 
-.footer-box h3 {
-  color: #facc15;
-  margin-bottom: 10px;
+.wave-path {
+  fill: #ffffff; /* আপনার বডির ব্যাকগ্রাউন্ড কালারের সাথে ম্যাচ করান */
 }
 
-.footer-box p,
-.footer-box li {
+/* --- BRAND & TRUST --- */
+.footer-logo {
+  font-weight: 900;
+  font-size: 28px;
+  letter-spacing: -1px;
+}
+
+.footer-logo span {
+  color: #3b82f6;
+}
+
+.footer-moto {
+  color: #94a3b8;
   font-size: 14px;
-  margin: 6px 0;
+  margin: 15px 0 25px;
+  max-width: 350px;
 }
 
-.footer-box ul {
+.t-badge {
+  background: rgba(59, 130, 246, 0.1);
+  padding: 6px 12px;
+  border-radius: 50px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #60a5fa;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  text-transform: uppercase;
+}
+
+/* --- SOCIAL LINKS --- */
+.premium-socials {
+  display: flex;
+  gap: 12px;
+}
+
+.ps-link {
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: #cbd5e1;
+  text-decoration: none;
+  transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.ps-link:hover {
+  background: #3b82f6;
+  color: white;
+  transform: scale(1.1) rotate(10deg);
+  box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
+}
+
+/* --- NAV LINKS --- */
+.footer-head {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 25px;
+  color: #fff;
+}
+
+.footer-nav {
   list-style: none;
   padding: 0;
 }
 
-.footer-box a {
-  color: #e5e7eb;
+.footer-nav li {
+  margin-bottom: 12px;
+}
+
+.footer-nav a {
+  color: #94a3b8;
   text-decoration: none;
+  font-size: 14.5px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: 0.3s;
 }
 
-.footer-box a:hover {
-  color: #22c55e;
+.footer-nav a:hover {
+  color: #3b82f6;
+  transform: translateX(8px);
 }
 
-.social a {
-  font-size: 22px;
-  margin-right: 12px;
-  color: #fff;
+/* --- CONTACT INFO (1 LINE FOCUS) --- */
+.contact-info-list {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
 }
 
-.social a:hover {
-  color: #22c55e;
+.ci-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
 }
 
-.copyright {
-  font-size: 13px;
-  margin-top: 15px;
-  color: #9ca3af;
+.ci-icon {
+  min-width: 38px;
+  height: 38px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #3b82f6;
+  font-size: 14px;
+}
+
+.ci-text {
+  font-size: 14px;
+  color: #cbd5e1;
+  white-space: nowrap; /* নম্বর এক লাইনে রাখবে */
+}
+
+/* --- BOTTOM BAR --- */
+.bottom-bar {
+  margin-top: 60px;
+  padding: 25px 0;
+  background: #020617;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.payment-icons img {
+  height: 22px;
+  margin-left: 15px;
+  filter: grayscale(1) brightness(1.5);
+  transition: 0.3s;
+}
+
+.payment-icons img:hover {
+  filter: grayscale(0) brightness(1);
+}
+
+/* --- MOBILE RESPONSIVE PRO --- */
+@media (max-width: 768px) {
+  .ultra-footer {
+    padding-top: 80px;
+    text-align: center;
+  }
+  .footer-moto {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .ci-item {
+    justify-content: center;
+  }
+  .ci-text {
+    white-space: normal; /* মোবাইলে খুব ছোট স্ক্রিন হলে ভেঙে নিচে যাবে */
+  }
+  .footer-nav a {
+    justify-content: center;
+  }
+  .premium-socials {
+    justify-content: center;
+  }
 }
