@@ -92,8 +92,8 @@ function HomePage() {
         <div className="hero-section-pro">
      
           <div className="hero-content-overlay">
-            <h1 className="hero-main-title">Emad Telecom <HiOutlineSparkles className="spark-icon" /></h1>
-            <p className="hero-sub-text">Exclusive deals on latest smartphones and accessories</p>
+            <h1 className="hero-main-title text-danger">Emad Telecom <HiOutlineSparkles className="spark-icon" /></h1>
+            <p className="hero-sub-text ">Exclusive deals on latest smartphones and accessories</p>
           </div>
         </div>
 
@@ -173,13 +173,33 @@ function HomePage() {
                           <button className="details-btn-modern" onClick={() => navigate(`/product/${p.slug}`)}>
                             <AiOutlineEye /> Details
                           </button>
-                          <button className="cart-btn-modern" onClick={() => {
-                            setCart([...cart, p]);
-                            localStorage.setItem("cart", JSON.stringify([...cart, p]));
-                            toast.success("Added to cart");
-                          }}>
-                            <AiOutlineShoppingCart />
-                          </button>
+                         <button
+  className="cart-btn-modern"
+  onClick={() => {
+    let updatedCart = [...cart];
+
+    // product already exists কিনা check
+    const existingProductIndex = updatedCart.findIndex(item => item._id === p._id);
+
+    if (existingProductIndex !== -1) {
+      // already in cart → qty +1
+      updatedCart[existingProductIndex].cartQuantity += 1;
+      toast.success("Quantity increased 🛒");
+    } else {
+      // new product → DEFAULT QTY = 1  ⭐⭐⭐
+      updatedCart.push({
+        ...p,
+        cartQuantity: 1,
+      });
+      toast.success("Added to cart 🛒");
+    }
+
+    setCart(updatedCart);
+    localStorage.setItem("cart", JSON.stringify(updatedCart));
+  }}
+>
+  <AiOutlineShoppingCart />
+</button>
                         </div>
                       </div>
                     </div>
@@ -190,8 +210,8 @@ function HomePage() {
               {/* Load More Button */}
               {products.length < total && (
                 <div className="text-center my-5 pb-5">
-                  <button className="glow-loadmore-btn" onClick={loadMore} disabled={loading}>
-                    {loading ? "Discovering..." : "EXPLORE MORE"}
+                  <button className="btn btn-danger" onClick={loadMore} disabled={loading}>
+                    {loading ? "Loading..." : "EXPLORE MORE"}
                   </button>
                 </div>
               )}

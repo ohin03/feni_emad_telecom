@@ -1,59 +1,133 @@
-/* ================= CATEGORIES PAGE ================= */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
 
-/* Container only for Categories page */
-.categories-page-container {
-  padding: 20px;
-  background: linear-gradient(135deg, #f0f0f0, #ffffff); /* subtle gradient */
-  min-height: 80vh;
-  border-radius: 12px;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.05);
+.categories-wrapper {
+  background-color: #f8fafc;
+  min-height: 100vh;
+  font-family: 'Plus Jakarta Sans', sans-serif;
 }
 
-/* Row only for Categories page */
-.categories-page-row {
+/* Header Styling */
+.premium-tag {
+  background: #eef2ff;
+  color: #6366f1;
+  padding: 8px 20px;
+  border-radius: 50px;
+  font-size: 13px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 15px;
+}
+
+.main-cat-title {
+  font-size: 42px;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: -1px;
+}
+
+.sub-cat-text {
+  color: #64748b;
+  font-size: 16px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Luxury Card Design */
+.luxury-cat-card {
   display: flex;
-  flex-wrap: wrap;
-  gap: 15px;
-  margin-top: 20px;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 180px;
+  background: #fff;
+  padding: 25px;
+  border-radius: 24px;
+  text-decoration: none !important;
+  border: 1px solid #f1f5f9;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1;
 }
 
-/* Column for category button */
-.categories-page-col {
-  flex: 0 0 50%;
-  max-width: 50%;
+.luxury-cat-card:hover {
+  transform: translateY(-10px);
+  border-color: #6366f1;
+  box-shadow: 0 20px 40px rgba(99, 102, 241, 0.1);
 }
 
-/* Category buttons */
-.category-btn {
-  display: block;
-  width: 100%;
-  padding: 14px;
-  font-size: 1.1rem;
-  color: #111; /* dark text */
-  text-align: center;
-  text-decoration: none;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.6); /* glass effect */
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(0,0,0,0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+.cat-icon-box {
+  width: 50px;
+  height: 50px;
+  background: #f8fafc;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6366f1;
+  transition: 0.3s;
 }
 
-.category-btn:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-  background: rgba(255, 255, 255, 0.8);
+.luxury-cat-card:hover .cat-icon-box {
+  background: #6366f1;
+  color: #fff;
+  transform: rotate(-10deg);
 }
 
-/* Mobile adjustments */
+.cat-name-pro {
+  font-size: 18px;
+  font-weight: 800;
+  color: #1e293b;
+  margin-bottom: 5px;
+  transition: 0.3s;
+}
+
+.explore-btn-mini {
+  font-size: 13px;
+  font-weight: 700;
+  color: #94a3b8;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: 0.3s;
+}
+
+.luxury-cat-card:hover .explore-btn-mini {
+  color: #6366f1;
+  gap: 8px;
+}
+
+/* Background Decoration */
+.card-bg-glow {
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 100px;
+  height: 100px;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, transparent 70%);
+  z-index: -1;
+  transition: 0.5s;
+}
+
+.luxury-cat-card:hover .card-bg-glow {
+  width: 250px;
+  height: 250px;
+}
+
+/* Mobile Optimizations */
+@media (max-width: 768px) {
+  .main-cat-title { font-size: 28px; }
+  .luxury-cat-card { height: 150px; padding: 15px; border-radius: 20px; }
+  .cat-icon-box { width: 40px; height: 40px; border-radius: 12px; }
+  .cat-name-pro { font-size: 15px; }
+  .sub-cat-text { font-size: 14px; }
+}
+
 @media (max-width: 480px) {
-  .categories-page-col {
-    flex: 0 0 100%;
-    max-width: 100%;
-  }
-
-  .category-btn {
-    font-size: 1rem;
-    padding: 12px;
-  }
+  .container { padding-left: 15px; padding-right: 15px; }
+  /* মোবাইলে এক লাইনে ২ টি কার্ড নিশ্চিত করে */
+  .col-6 { width: 50%; }
 }

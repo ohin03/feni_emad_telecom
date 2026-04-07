@@ -21,7 +21,7 @@ const CartPage = () => {
 
   const totalPrice = () => {
     try {
-      let total = cart?.reduce((acc, item) => acc + (item.price * (item.quantity || 1)), 0);
+      let total = cart?.reduce((acc, item) => acc + (item.price * (item.cartQuantity || 1)), 0);
       return total;
     } catch (error) {
       return 0;
@@ -38,8 +38,8 @@ const CartPage = () => {
   const updateQuantity = (pid, type) => {
     const newCart = cart.map((item) => {
       if (item._id === pid) {
-        let newQty = type === "inc" ? (item.quantity || 1) + 1 : (item.quantity || 1) - 1;
-        return { ...item, quantity: Math.max(1, newQty) };
+      let newQty = type === "inc" ? (item.cartQuantity || 1) + 1 : (item.cartQuantity || 1) - 1;
+return { ...item, cartQuantity: Math.max(1, newQty) };
       }
       return item;
     });
@@ -52,7 +52,7 @@ const CartPage = () => {
       setLoading(true);
       const formattedProducts = cart.map((item) => ({
         _id: item._id,
-        quantity: Number(item.quantity || 1),
+        quantity: Number(item.cartQuantity || 1),
       }));
 
       const { data } = await axios.post(
@@ -117,7 +117,7 @@ const CartPage = () => {
                         <div className="qty-price-flex">
                           <div className="qty-counter">
                             <button onClick={() => updateQuantity(p._id, "dec")}><AiOutlineMinus /></button>
-                            <span>{p.quantity || 1}</span>
+                            <span>{p.cartQuantity || 1}</span>
                             <button onClick={() => updateQuantity(p._id, "inc")}><AiOutlinePlus /></button>
                           </div>
                           <h6 className="price-tag mb-0">{p.price} TK</h6>
@@ -125,7 +125,7 @@ const CartPage = () => {
                       </div>
                       <div className="item-actions">
                         <button className="delete-btn" onClick={() => removeCartItem(p._id)}><AiOutlineDelete /></button>
-                        <p className="fw-bold text-primary mt-2 d-none d-md-block">{(p.price * (p.quantity || 1))} TK</p>
+                        <p className="fw-bold text-primary mt-2 d-none d-md-block">{(p.price * (p.cartQuantity || 1))} TK</p>
                       </div>
                     </div>
                   ))

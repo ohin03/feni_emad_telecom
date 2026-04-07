@@ -4,103 +4,114 @@ import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import { useCart } from "../context/cart";
 import toast from "react-hot-toast";
+import { 
+  IoCartOutline, IoEyeOutline, IoArrowBack, 
+  IoStar, IoHeartOutline, IoFlameOutline 
+} from "react-icons/io5";
 import "./CategoryProduct.css";
 
 const CategoryProduct = () => {
   const params = useParams();
   const navigate = useNavigate();
-
   const [products, setProducts] = useState([]);
   const [category, setCategory] = useState({});
   const [cart, setCart] = useCart();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (params?.slug) getProductByCat();
   }, [params?.slug]);
 
-
-
   const getProductByCat = async () => {
     try {
-      const { data } = await axios.get(
-        `/api/v1/product/product-category/${params.slug}`
-      );
-      // Make sure data.products is an array
+      setLoading(true);
+      const { data } = await axios.get(`/api/v1/product/product-category/${params.slug}`);
       setProducts(Array.isArray(data?.products) ? data.products : []);
       setCategory(data?.category || {});
+      setLoading(false);
     } catch (error) {
       console.log(error);
+      setLoading(false);
     }
   };
 
   return (
-    <div className="category-page-body">
-    <Layout>
-      <div className="container mt-3">
-        <h4 className="text-center">Category - {category?.name}</h4>
-        <h6 className="text-center mb-4">{products?.length} result found</h6>
+    <Layout title={`${category?.name} | Premium Collection`}>
+      <div className="category-ultra-wrapper">
+        <div className="container py-4">
+          
+          {/* Real Feel Header */}
+          <div className="pro-header-section mb-5">
+            <button className="back-minimal-btn" onClick={() => navigate(-1)}>
+              <IoArrowBack /> Back
+            </button>
+            <div className="category-info-text">
+              <span className="trending-pill"><IoFlameOutline /> Trending Now</span>
+              <h1 className="category-title-text">{category?.name}</h1>
+              <p className="result-count">{products?.length} Items curated for you</p>
+            </div>
+          </div>
 
-        <div className="row">
-          {products?.map((p) => (
-            <div className="col-md-3 col-sm-6 mb-4" key={p._id}>
-              <div className="card h-100">
+          <div className="row g-3 g-md-4">
+            {products?.map((p) => (
+              <div className="col-6 col-md-4 col-lg-3" key={p._id}>
+                <div className="real-pro-card">
+                  {/* Image & Badges */}
+                  <div className="image-wrapper" onClick={() => navigate(`/product/${p.slug}`)}>
+                    <div className="wishlist-overlay"><IoHeartOutline /></div>
+                    <div className="discount-tag">Sale</div>
+                    <img
+                      src={p?.photo ? `/api/v1/product/product-photo/${p._id}` : "/images/placeholder.png"}
+                      alt={p.name}
+                      className="product-main-img"
+                    />
+                    <div className="hover-action-btn">
+                      <IoEyeOutline /> Quick View
+                    </div>
+                  </div>
 
-                {/* Product Image */}
-                <img
-                  src={
-                    p?.photo
-                      ? `/api/v1/product/product-photo/${p._id}?${new Date().getTime()}`
-                      : "/images/placeholder.png"
-                  }
-                  alt={p.name || "Product"}
-                  className="card-img-top"
-                  style={{ height: "200px", objectFit: "cover" }}
-                  onError={(e) => {
-                    // fallback if image fails to load
-                    e.target.src = "/images/placeholder.png";
-                  }}
-                />
+                  {/* Product Info */}
+                  <div className="product-info-wrapper">
+                    <div className="d-flex justify-content-between align-items-center mb-1">
+                      <span className="stock-status">In Stock</span>
+                      <div className="rating-star">
+                         <IoStar /> <span>4.5</span>
+                      </div>
+                    </div>
+                    
+                    <h5 className="product-title" title={p.name}>{p.name}</h5>
+                    
+                    <div className="price-tag-row">
+                      <span className="price-new">৳ {p.price.toLocaleString()}</span>
+                      <span className="price-old">৳ {(p.price + 500).toLocaleString()}</span>
+                    </div>
 
-                <div className="card-body d-flex flex-column">
-                  <h5 className="card-title">{p.name}</h5>
-                  <p className="card-text">
-                    {p.description?.substring(0, 50)}...
-                  </p>
-                  <p className="card-text">
-                    <strong>TK:</strong> {p.price}
-                  </p>
-
-                  <div className="mt-auto d-flex justify-content-between">
-                    <button
-                      className="btn btn-primary btn-sm"
-                      onClick={() => navigate(`/product/${p.slug}`)}
+                    <button 
+                      className="ultra-cart-btn" 
+                      onClick={() => {
+                        const item = { ...p, quantity: 1 };
+                        setCart([...cart, item]);
+                        localStorage.setItem('cart', JSON.stringify([...cart, item]));
+                        toast.success('Added to your bag!');
+                      }}
                     >
-                      More Details
-                    </button>
-
-                    <button className="btn btn-secondary btn-sm" onClick={() => {
-                      const item = { ...p, quantity: 1 };
-                      setCart([...cart, item]);
-                      localStorage.setItem('cart', JSON.stringify([...cart, item]));
-                      toast.success('Item Added to Cart');
-                    }}>
-                      ADD TO CART
+                      <IoCartOutline /> Add to Cart
                     </button>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
 
-          {products.length === 0 && (
-            <div className="col-12 text-center mt-5">
-              <h5>No products found in this category</h5>
+          {products.length === 0 && !loading && (
+            <div className="empty-category text-center py-5">
+               <h2>No Products in {category?.name}</h2>
+               <button className="btn btn-dark mt-3 px-5 rounded-pill" onClick={() => navigate("/")}>Go Home</button>
             </div>
           )}
         </div>
       </div>
     </Layout>
-    </div>
   );
 };
 
