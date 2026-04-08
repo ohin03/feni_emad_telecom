@@ -22,8 +22,55 @@ const Register = () => {
         return (filledFields / fields.length) * 100;
     };
 
+    // ✅ Validation function
+    const validateForm = () => {
+        // Name validation
+        if (!name.trim() || name.trim().length < 3) {
+            toast.error('Full Name must be at least 3 characters');
+            return false;
+        }
+
+        // Email validation (simple regex)
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            toast.error('Enter a valid email address');
+            return false;
+        }
+
+        // Password validation
+        if (password.length < 6) {
+            toast.error('Password must be at least 6 characters');
+            return false;
+        }
+
+        // Phone validation (10-14 digits)
+        const phoneRegex = /^\d{10,14}$/;
+        if (!phoneRegex.test(phone)) {
+            toast.error('Phone number must be 10-14 digits');
+            return false;
+        }
+
+        // Address validation
+        if (!address.trim() || address.trim().length < 5) {
+            toast.error('Address must be at least 5 characters');
+            return false;
+        }
+
+        // Security Answer validation
+        if (!answer.trim() || answer.trim().length < 2) {
+            toast.error('Security answer must be at least 2 characters');
+            return false;
+        }
+
+        return true;
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        // ✅ Check validation before API call
+        if (!validateForm()) return;
+
         try {
             const res = await axios.post('/api/v1/auth/register', {
                 name, email, password, phone, address, answer,
