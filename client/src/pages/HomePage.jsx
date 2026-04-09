@@ -90,12 +90,23 @@ function HomePage() {
         
         {/* --- 1. PRO HERO BANNER --- */}
         <div className="hero-section-pro">
-     
-          <div className="hero-content-overlay">
-            <h1 className="hero-main-title text-danger">Emad Telecom <HiOutlineSparkles className="spark-icon" /></h1>
-            <p className="hero-sub-text ">Exclusive deals on latest smartphones and accessories</p>
-          </div>
-        </div>
+  {/* ব্যাকগ্রাউন্ডে এনিমেটেড শেপ বা গ্লো */}
+  <div className="hero-bg-glow"></div>
+  
+  <div className="hero-content-overlay">
+    <div className="hero-badge">Verified Gadget Shop</div>
+    <h1 className="hero-main-title">
+      Emad Telecom <HiOutlineSparkles className="spark-icon" />
+    </h1>
+    <p className="hero-sub-text">
+      Exclusive deals on latest smartphones and accessories
+    </p>
+    <div className="hero-btn-group">
+      <button className="btn-glass" onClick={() => window.location.href='/contact'}>Contact</button>
+      <button className="btn-outline-custom">Repair Service</button>
+    </div>
+  </div>
+</div>
 
         {/* --- 2. MOBILE FILTER FAB --- */}
         <button className="mobile-filter-btn d-md-none" onClick={() => setOpen(true)}>

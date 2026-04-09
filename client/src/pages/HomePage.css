@@ -394,3 +394,138 @@
     .custom-navbar { height: 60px; }
     .brand-text { font-size: 1.1rem; }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+.hero-section-pro {
+    position: relative;
+    height: 350px;
+    background: #020617; /* Deep Midnight Blue/Black */
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 24px;
+    margin: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Background Animated Glow */
+.hero-bg-glow {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(15, 185, 177, 0.3) 0%, rgba(239, 68, 68, 0.2) 100%);
+    filter: blur(80px);
+    animation: moveGlow 10s infinite alternate;
+    z-index: 1;
+}
+
+@keyframes moveGlow {
+    from { transform: translate(-50%, -50%); }
+    to { transform: translate(50%, 50%); }
+}
+
+.hero-content-overlay {
+    position: relative;
+    z-index: 5;
+    text-align: center;
+    padding: 20px;
+}
+
+.hero-badge {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #0fb9b1;
+    display: inline-block;
+    padding: 5px 15px;
+    border-radius: 50px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 15px;
+}
+
+.hero-main-title {
+    font-size: 3.5rem;
+    font-weight: 800;
+    background: linear-gradient(to right, #ffffff, #ef4444);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.spark-icon {
+    color: #ef4444;
+    filter: drop-shadow(0 0 10px #ef4444);
+}
+
+.hero-sub-text {
+    color: #94a3b8;
+    font-size: 1.1rem;
+    max-width: 500px;
+    margin: 0 auto 25px;
+}
+
+/* Joss Buttons */
+.hero-btn-group {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.btn-glass {
+    background: #ef4444;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 12px;
+    font-weight: 700;
+    transition: 0.3s;
+    box-shadow: 0 10px 20px -5px rgba(239, 68, 68, 0.4);
+}
+
+.btn-glass:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 25px -5px rgba(239, 68, 68, 0.6);
+}
+
+.btn-outline-custom {
+    background: transparent;
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 12px 25px;
+    border-radius: 12px;
+    font-weight: 600;
+    backdrop-filter: blur(5px);
+    transition: 0.3s;
+}
+
+.btn-outline-custom:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: white;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .hero-section-pro { height: 260px; margin: 10px; border-radius: 16px; }
+    .hero-main-title { font-size: 2rem; }
+    .hero-sub-text { font-size: 0.9rem; }
+    .hero-btn-group { display: none; } /* মোবাইলে ক্লিন রাখতে বাটন হাইড করা যায় */
+}
