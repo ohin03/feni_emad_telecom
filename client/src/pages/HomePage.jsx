@@ -96,7 +96,7 @@ function HomePage() {
   <div className="hero-content-overlay">
     <div className="hero-badge">Verified Gadget Shop</div>
     <h1 className="hero-main-title">
-      Demo shop <HiOutlineSparkles className="spark-icon" />
+      Emad Telecom <HiOutlineSparkles className="spark-icon" />
     </h1>
     <p className="hero-sub-text">
       Exclusive deals on latest smartphones and accessories
