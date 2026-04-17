@@ -43,7 +43,7 @@ export const createProductController = async (req,res) => {
     await product.save()
     res.status(201).send({
             success: true,
-            message: "Product created successfully",
+            message: "Product created successfully..",
             product
         })
    }catch(error) {
@@ -51,7 +51,7 @@ export const createProductController = async (req,res) => {
         res.status(500).send({
             success:false,
             error,
-            message: "Error in creating product"
+            message: "Error in creating product!!"
         })
    }
 }
@@ -90,7 +90,7 @@ export const getSingleproductController = async (req,res) => {
          console.log(error)
         res.status(500).send({
             success:false,
-            message: "Error in geating single product",
+            message: "Error in getting single product",
              error: error.message
         })
     }
@@ -108,7 +108,7 @@ export const productPhotoController = async (req,res) => {
         console.log(error)
         res.status(500).send({
             success:false,
-            message: "Error while geating product photo",
+            message: "Error while getting product photo",
              error
         })
     }
@@ -119,7 +119,7 @@ export const deleteProductController = async (req,res) => {
         await productModel.findByIdAndDelete(req.params.pid).select("-photo")
          res.status(200).send({
             success: true,
-            message: "Product Deleted Successfully",
+            message: "Product Deleted Successfully..",
            
         })
     } catch (error) {
@@ -136,14 +136,14 @@ export const  updateProductController = async (req,res) => {
     try {
         console.log('\n[updateProductController] req.fields:', req.fields);
         console.log('[updateProductController] req.files:', req.files);
-        // sanitize incoming fields: remove keys with string "undefined" or empty strings
+
         Object.keys(req.fields || {}).forEach((k) => {
             if (req.fields[k] === "undefined" || req.fields[k] === "") {
                 delete req.fields[k];
             }
         });
 
-        // normalize shipping: accept "0"/"1" or boolean; convert to boolean
+
         if (req.fields && typeof req.fields.shipping === 'string') {
             if (req.fields.shipping === '0') req.fields.shipping = false;
             else if (req.fields.shipping === '1') req.fields.shipping = true;

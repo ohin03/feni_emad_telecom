@@ -5,13 +5,13 @@ import { requireSignin, isAdmin } from '../middlewares/authMiddleware.js';
 const router = express.Router();
 
 
-//register || post method
+//register - post method
 router.post('/register', registerController);
 
-//Login || post method
+//Login - post method
 router.post("/login", loginControlller)
 
-//Logout || get method
+//Logout - get method
 router.get("/logout", logoutController);
 
 //test routes

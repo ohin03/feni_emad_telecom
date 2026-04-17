@@ -58,7 +58,7 @@ export const updatePaymentStatusController = async (req, res) => {
 
     res.status(200).send({
       success: true,
-      message: "Payment status updated successfully",
+      message: "Payment status updated successfully..",
       order,
     });
   } catch (error) {
@@ -82,7 +82,7 @@ export const updateOrderStatusController = async (req, res) => {
 
     res.status(200).send({
       success: true,
-      message: "Order status updated successfully",
+      message: "Order status updated successfully..",
       order,
     });
   } catch (error) {
@@ -105,7 +105,7 @@ export const cancelOrderByUserController = async (req, res) => {
       return res.status(400).send({ success: false, message: "Cannot cancel a shipped or delivered order" });
     }
 
-    order.orderStatus = "Cancelled";
+    order.orderStatus = "Cancelled ";
     order.cancelled = { by: req.user._id, role: "user", reason: trimmed, at: new Date() };
     await order.save();
 

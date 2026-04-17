@@ -524,8 +524,27 @@
 
 /* Responsive */
 @media (max-width: 768px) {
-    .hero-section-pro { height: 260px; margin: 10px; border-radius: 16px; }
+    .hero-section-pro { 
+        height: 260px; 
+        margin: 10px; 
+        border-radius: 16px; 
+    }
+
     .hero-main-title { font-size: 2rem; }
     .hero-sub-text { font-size: 0.9rem; }
-    .hero-btn-group { display: none; } /* মোবাইলে ক্লিন রাখতে বাটন হাইড করা যায় */
+
+
+    .hero-btn-group {
+        display: flex;
+        flex-direction: column;  
+        gap: 10px;
+        margin-top: 15px;
+    }
+
+    .btn-glass,
+    .btn-outline-custom {
+        width: 100%;   /* full width button */
+        padding: 10px;
+        font-size: 14px;
+    }
 }

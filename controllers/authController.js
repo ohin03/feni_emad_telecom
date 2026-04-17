@@ -50,7 +50,7 @@ export const registerController = async (req, res) => {
         console.log(error);
         res.status(500).send({
             success: false,
-            message: 'Error in registration',
+            message: 'Error in registration!!',
             error
         })
     }
@@ -65,25 +65,25 @@ export const loginControlller = async (req, res) => {
         if(!email || !password){
             return res.status(404).send({
                 success:false,
-                message: "Invalid email or password"
+                message: "Invalid email or password!!"
             })
         }
-        //check user
+     
         const user = await userModel.findOne({email});
         if(!user){
             return res.status(404).send({
                 success:false,
-                message: "User not found"
+                message: "User not found!!"
             })
         };
         const match = await comparePassword(password, user.password);
         if(!match){
             return res.status(404).send({
                 success: false,
-                message: "Invalid password"
+                message: "Invalid password!!"
             })
         }
-        //token
+ 
         const token = JWT.sign({ _id: user._id }, process.env.JWT_SECRET, {
             expiresIn: "7d",
         });
@@ -104,7 +104,7 @@ export const loginControlller = async (req, res) => {
         console.log(error);
         res.status(500).send({
             success: false,
-            message: "Error in Login",
+            message: "Error in Login!!",
             error
         })
     }
@@ -135,7 +135,7 @@ export const forgotPasswordController = async (req,res) => {
         if(!user){
             return res.status(404).send({
                 success: false,
-                message: "Wrong Email or Answer"
+                message: "Wrong Email or Answer!!"
             })
         }
 
@@ -149,7 +149,7 @@ export const forgotPasswordController = async (req,res) => {
         console.log(error);
         res.status(500).send({
             success: false,
-            message: "Something went wrong",
+            message: "Something went wrong!!",
             error
         })
     }
@@ -168,7 +168,7 @@ export const logoutController = (req, res) => {
         console.log(error);
         res.status(500).send({
             success: false,
-            message: "Error in logout",
+            message: "Error in logout!!",
             error
         });
     }
@@ -213,7 +213,7 @@ export const updateProfileController = async (req, res) => {
     console.log(error);
     res.status(500).send({
       success: false,
-      message: "Error while updating profile",
+      message: "Error while updating profile!!",
       error,
     });
   }
@@ -232,7 +232,7 @@ export const getAllUsersController = async (req, res) => {
     console.log(error);
     res.status(500).send({
       success: false,
-      message: "Error while fetching users",
+      message: "Error while fetching users!!",
       error,
     });
   }

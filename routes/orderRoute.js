@@ -23,7 +23,8 @@ router.get("/user-orders", requireSignin, getUserOrdersController);
 // Get all orders (Admin only)
 router.get("/all-orders", requireSignin, isAdmin, getAllOrdersController);
 
-// Update payment status (Admin only)
+// Update payment status - Admin only
+
 router.put(
   "/payment-status/:orderId",
   requireSignin,
@@ -31,10 +32,10 @@ router.put(
   updatePaymentStatusController
 );
 
-// Update order status (Admin only)
+// Update order status - Admin only
 router.put("/order-status/:orderId", requireSignin, isAdmin, updateOrderStatusController);
 
-// Update shipping tracking (Admin only)
+// Update shipping tracking - Admin only
 router.put("/shipping-tracking/:orderId", requireSignin, isAdmin, updateShippingTrackingController);
 
 // Cancel order (user)

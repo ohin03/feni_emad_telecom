@@ -4,7 +4,7 @@ export const createCategoryController = async (req,res) => {
     try {
         const {name} = req.body;
         if(!name){
-            return res.status(401).send({message:"Name is required"})
+            return res.status(401).send({message:"Name is required.."})
         }
         const existingCategory = await categoryModel.findOne({name})
         if(existingCategory){
@@ -24,7 +24,7 @@ export const createCategoryController = async (req,res) => {
         res.status(500).send({
             success:false,
             error,
-            message: "Error in category"
+            message: "Error in category!!"
         })
     }
 
@@ -37,7 +37,7 @@ export const updateCategoryController = async (req,res) => {
         const category = await categoryModel.findByIdAndUpdate(id,{name, slug:slugify(name)},{new:true})
         res.status(200).send({
             success: true,
-            message: "Category updated successfully",
+            message: "Category updated successfully..",
             category,
         })
     } catch (error) {
@@ -45,7 +45,7 @@ export const updateCategoryController = async (req,res) => {
         res.status(500).send({
             success: false,
             error,
-            message:"Error in updating category"
+            message:"Error in updating category!!"
         })
     }
 }
@@ -56,7 +56,7 @@ export const categoryController = async (req, res) => {
         const category = await categoryModel.find({})
         res.status(200).send({
             success:true,
-            message:"All categories list",
+            message:"All categories list..",
             category,
         })
     } catch (error) {
@@ -64,7 +64,7 @@ export const categoryController = async (req, res) => {
         res.status(500).send({
             success: false,
             error,
-            message: "Error in getting all categories"
+            message: "Error in getting all categories!!"
         })
     }
 }
@@ -83,7 +83,7 @@ export const singleCategoryController = async (req, res) => {
         res.status(500).send({
             success: false,
             error,
-            message: "Error in getting this category"
+            message: "Error in getting this category!!"
         })
     }
 }
@@ -102,7 +102,7 @@ export const deleteCategoryController = async (req, res) => {
         res.status(500).send({
             success: false,
             error,
-            message: "Error while deletein category"
+            message: "Error while deleting category!!"
         })
     }
 }

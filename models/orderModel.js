@@ -37,7 +37,7 @@ const orderSchema = new mongoose.Schema(
 
     orderStatus: {
       type: String,
-      default: "Processing", // Processing | Shipped | Delivered | Cancelled
+      default: "Processing", // Processing , Shipped , Delivered , Cancelled
     },
 
     // If cancelled, capture reason and who cancelled
@@ -48,7 +48,7 @@ const orderSchema = new mongoose.Schema(
       at: { type: Date },
     },
 
-    // Shipping tracking (similar to Daraz)
+    // Shipping tracking 
     trackingNumber: {
       type: String,
     },

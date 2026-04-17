@@ -1,7 +1,7 @@
 import JWT from 'jsonwebtoken';
 import userModel from '../models/userModel.js';
 
-//portected route token base
+//protected route token base
 export const requireSignin = async (req, res, next) => {
     try {
         const authHeader = req.headers.authorization || req.headers.Authorization;
@@ -49,7 +49,7 @@ export const isAdmin = async (req, res, next) => {
         res.status(401).send({
             success: false,
             error,
-            message: "Error in admin middleware"
+            message: "Error in admin middleware!!"
         })
     }
 };
